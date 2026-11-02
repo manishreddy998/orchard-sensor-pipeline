@@ -1,0 +1,29 @@
+version: 2
+models:
+  - name: int_readings_dedup
+    description: One row per device reading after gateway re-sends are removed.
+    columns:
+      - name: device_id
+        tests: [not_null, {relationships: {to: ref('device_registry'), field: device_id}}]
+      - name: reading_ts
+        tests: [not_null]
+      - name: copies_received
+        tests: [not_null]
+  - name: int_readings_flagged
+    columns:
+      - name: is_spike
+        tests: [not_null]
+      - name: is_stuck
+        tests: [not_null]
+  - name: fct_orchard_hourly_weather
+    columns:
+      - name: orchard_id
+        tests: [not_null, {accepted_values: {values: ['ORC-KEL', 'ORC-OLI', 'ORC-CAW']}}]
+  - name: mart_pest_risk
+    columns:
+      - name: spray_timing_risk
+        tests: [{accepted_values: {values: ['low', 'medium', 'high']}}]
+  - name: mart_device_health
+    columns:
+      - name: device_id
+        tests: [unique, not_null]
