@@ -1,0 +1,22 @@
+name: orchard_sensor
+version: "1.0.0"
+config-version: 2
+profile: orchard_sensor
+model-paths: ["models"]
+seed-paths: ["seeds"]
+test-paths: ["tests"]
+macro-paths: ["macros"]
+target-path: target
+vars:
+  # how far back to re-check flags when late readings arrive (stuck runs last up to 36 hours)
+  late_rewrite_hours: 48
+  late_context_hours: 96
+models:
+  orchard_sensor:
+    staging: {+materialized: view}
+    intermediate: {+materialized: table}
+    marts: {+materialized: table}
+seeds:
+  orchard_sensor:
+    device_registry:
+      +column_types: {installed_on: date, mating_disruption: boolean}
