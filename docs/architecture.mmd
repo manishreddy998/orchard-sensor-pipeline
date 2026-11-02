@@ -1,0 +1,27 @@
+flowchart LR
+  subgraph Field[In-orchard devices]
+    WX[Weather stations<br/>temp and humidity]
+    SM[Soil moisture probes]
+    CMT[Codling moth camera traps]
+  end
+  OM[Open-Meteo archive<br/>public weather] --> RAW
+  Field -->|gateway, re-sends and<br/>backlog flushes| PS[Pub/Sub style feed]
+  PS --> RAW[(raw.sensor_messages<br/>idempotent on message_id<br/>load manifest)]
+  subgraph dbt[dbt on BigQuery or DuckDB]
+    RAW --> STG[stg_sensor_messages]
+    STG --> DD[int_readings_dedup<br/>incremental, first copy wins]
+    DD --> FL[int_readings_flagged<br/>spike, stuck, range<br/>48 h late-data re-check]
+    FL --> WH[fct_orchard_hourly_weather<br/>median of clean stations]
+    WH --> DDAY[mart_degree_days<br/>base 50F, upper 88F]
+    DD --> TR[mart_trap_daily]
+    TR --> PR[mart_pest_risk<br/>biofix, egg lay, egg hatch]
+    DDAY --> PR
+    DD --> DH[mart_device_health]
+  end
+  LBL[EPA label PDFs<br/>Delegate WG, Intrepid 2F, Imidan 70-W] --> QA[Label assistant<br/>crop section, rule match,<br/>verbatim quote and page or refuse]
+  PR --> UI[Streamlit dashboard<br/>Cloud Run]
+  DH --> UI
+  QA --> UI
+  DAG[Dagster hourly schedule] -.-> RAW
+  DAG -.-> dbt
+  EV[Evals: incremental vs full rebuild,<br/>fault answer key, label gold set] -.-> UI
