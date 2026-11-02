@@ -1,0 +1,43 @@
+name: ci
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  pipeline-and-evals:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: pip
+      - run: pip install -r requirements.txt
+      - name: Generate orchard sensor messages on real Open-Meteo weather (cached CSV)
+        run: python -m src.fetch_weather && python -m src.synth_sensors
+      - name: Land raw messages and build dbt models with tests
+        run: python -m src.land --reset && python -m src.warehouse build
+      - name: Late data, duplicate and anomaly scoreboard (4 incremental batches vs full rebuild)
+        run: python -m src.evaluate_pipeline
+      - name: Cited label Q&A scoreboard
+        run: python -m src.evaluate_labels
+      - name: Pytest
+        run: pytest -q
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: scoreboards
+          path: results/
+
+  dagster-definitions:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: pip
+      - run: pip install -r requirements-dagster.txt
+      - run: pytest -q tests/test_dagster_defs.py
