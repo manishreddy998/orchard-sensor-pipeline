@@ -1,0 +1,14 @@
+{
+  "labels_indexed": 3,
+  "label_pages_indexed": 126,
+  "questions": 26,
+  "answerable_questions": 21,
+  "unanswerable_questions": 5,
+  "answer_correct_with_exact_page": 17,
+  "answer_accuracy": 0.8095,
+  "correct_refusals": 5,
+  "wrong_answers_given": 2,
+  "quotes_verified_on_page": 19,
+  "quotes_given": 19,
+  "avg_ms_per_question": 1.52
+}

@@ -1,0 +1,124 @@
+{
+  "late_data": {
+    "batches": [
+      {
+        "batch": 1,
+        "arrival_cutoff": "2026-06-01",
+        "messages_landed": 32614,
+        "messages_older_than_high_water_mark": 0,
+        "dbt_run_seconds": 2.85
+      },
+      {
+        "batch": 2,
+        "arrival_cutoff": "2026-08-01",
+        "messages_landed": 32487,
+        "messages_older_than_high_water_mark": 1,
+        "dbt_run_seconds": 2.8
+      },
+      {
+        "batch": 3,
+        "arrival_cutoff": "2026-09-15",
+        "messages_landed": 24132,
+        "messages_older_than_high_water_mark": 90,
+        "dbt_run_seconds": 2.8
+      },
+      {
+        "batch": 4,
+        "arrival_cutoff": "end of season",
+        "messages_landed": 21958,
+        "messages_older_than_high_water_mark": 1,
+        "dbt_run_seconds": 2.75
+      }
+    ],
+    "late_readings_over_1h": 2305,
+    "full_refresh_seconds": 2.86,
+    "rows_different_incremental_vs_full_refresh": {
+      "int_readings_dedup": 0,
+      "int_readings_flagged": 0,
+      "mart_pest_risk": 0
+    }
+  },
+  "duplicates": {
+    "messages_received": 111191,
+    "unique_readings_expected": 107952,
+    "unique_readings_in_warehouse": 107952,
+    "resends_injected": 3239,
+    "resends_removed": 3239
+  },
+  "anomalies": {
+    "weather_station_readings_checked": 59904,
+    "spike": {
+      "true_faults": 142,
+      "flagged": 143,
+      "caught": 142,
+      "false_alarms": 1,
+      "missed": 0,
+      "precision": 0.993,
+      "recall": 1.0
+    },
+    "stuck": {
+      "true_faults": 530,
+      "flagged": 530,
+      "caught": 530,
+      "false_alarms": 0,
+      "missed": 0,
+      "precision": 1.0,
+      "recall": 1.0
+    },
+    "any_fault": {
+      "true_faults": 672,
+      "flagged": 673,
+      "caught": 672,
+      "false_alarms": 1,
+      "missed": 0,
+      "precision": 0.9985,
+      "recall": 1.0
+    }
+  },
+  "degree_days_season_total": [
+    {
+      "orchard_id": "ORC-CAW",
+      "clean_sensors": 2830.1,
+      "naive_average": 2841.3,
+      "open_meteo_reference": 2842.6
+    },
+    {
+      "orchard_id": "ORC-KEL",
+      "clean_sensors": 3039.4,
+      "naive_average": 3014.3,
+      "open_meteo_reference": 2998.1
+    },
+    {
+      "orchard_id": "ORC-OLI",
+      "clean_sensors": 3380.0,
+      "naive_average": 3379.8,
+      "open_meteo_reference": 3340.0
+    }
+  ],
+  "codling_moth_timing": [
+    {
+      "orchard_id": "ORC-CAW",
+      "mating_disruption": "True",
+      "biofix": "2026-05-07",
+      "egg_lay_window_opens": "2026-05-18",
+      "egg_hatch_window_opens": "2026-05-27",
+      "peak_moths_per_trap": "3.4"
+    },
+    {
+      "orchard_id": "ORC-KEL",
+      "mating_disruption": "True",
+      "biofix": "2026-05-03",
+      "egg_lay_window_opens": "2026-05-09",
+      "egg_hatch_window_opens": "2026-05-22",
+      "peak_moths_per_trap": "2.8"
+    },
+    {
+      "orchard_id": "ORC-OLI",
+      "mating_disruption": "False",
+      "biofix": "2026-04-24",
+      "egg_lay_window_opens": "2026-05-03",
+      "egg_hatch_window_opens": "2026-05-10",
+      "peak_moths_per_trap": "11.4"
+    }
+  ]
+}
