@@ -1,0 +1,9 @@
+version: 2
+sources:
+  - name: raw
+    schema: raw
+    tables:
+      - name: sensor_messages
+        description: Every message the field gateways published, including re-sends and late backlog flushes.
+      - name: open_meteo_hourly
+        description: Public Open-Meteo archive weather for each orchard, used as a reference.

@@ -1,0 +1,14 @@
+orchard_sensor:
+  target: "{{ env_var('WAREHOUSE_TARGET', 'duckdb') }}"
+  outputs:
+    duckdb:
+      type: duckdb
+      path: "{{ env_var('DUCKDB_PATH', '../data/orchard.duckdb') }}"
+      threads: 4
+    bigquery:
+      type: bigquery
+      method: oauth
+      project: "{{ env_var('GCP_PROJECT_ID', 'set-me') }}"
+      dataset: orchard_sensor
+      location: northamerica-northeast1
+      threads: 8
